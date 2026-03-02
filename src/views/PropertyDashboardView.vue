@@ -2,7 +2,7 @@
   <div class="dashboard-layout">
     <!-- Sidebar -->
     <SmAside class="dashboard-aside">
-      <div class="aside-property-name">{{ property.name }}</div>
+      <div class="aside-property-name">{{ propertyData.name }}</div>
       <SmVerticalNav>
         <SmVerticalNavItem
           label="Property dashboard"
@@ -25,7 +25,7 @@
       <SmVerticalNav>
         <SmVerticalNavItem
           label="Billing"
-          :force-active-state="billingExpanded || currentNav.startsWith('billing') ? 'exact-active' : 'in-active'"
+          :force-active-state="currentNav.startsWith('billing') ? 'exact-active' : 'in-active'"
           @click="billingExpanded = !billingExpanded"
         >
           <template #right>
@@ -66,20 +66,19 @@
       <div class="breadcrumb">
         <a href="#" class="breadcrumb-link" @click.prevent="$emit('back')">Properties</a>
         <span class="breadcrumb-sep">/</span>
-        <span class="breadcrumb-current">{{ property.name }}</span>
+        <span class="breadcrumb-current">{{ propertyData.name }}</span>
       </div>
 
       <!-- Page title row -->
       <div class="page-title-row">
         <div class="page-title-left">
-          <h1 class="page-title">{{ property.name }}</h1>
-          <span class="status-badge" :class="property.status === 'Active' ? 'status-badge--active' : 'status-badge--inactive'">
-            {{ property.status }}
+          <h1 class="page-title">{{ propertyData.name }}</h1>
+          <span class="status-badge" :class="propertyData.status === 'Active' ? 'status-badge--active' : 'status-badge--inactive'">
+            {{ propertyData.status }}
           </span>
         </div>
-        <SmButton variant="secondary">
+        <SmButton type="secondary" suffix-icon="action-external-link">
           View nxs-admin
-          <SmIcon name="action-external-link" style="margin-left: 4px;" />
         </SmButton>
       </div>
 
@@ -92,39 +91,75 @@
             <SmCardContent>
               <div class="card-header">
                 <h2 class="card-title">Property information</h2>
-                <button class="edit-btn" title="Edit">
+                <button v-if="!isEditingInfo" class="edit-btn" title="Edit" @click="startEditInfo">
                   <SmIcon name="action-edit" />
                 </button>
               </div>
               <div class="info-rows">
-                <div class="info-row">
-                  <div class="info-label">Name</div>
-                  <div class="info-value">{{ property.name }}</div>
-                </div>
-                <div class="info-row">
-                  <div class="info-label">Partner</div>
-                  <div class="info-value">{{ property.info.partner }}</div>
-                </div>
-                <div class="info-row">
-                  <div class="info-label">Enterprise</div>
-                  <div class="info-value">{{ property.info.enterprise }}</div>
-                </div>
-                <div class="info-row">
-                  <div class="info-label">Billing start date (UTC)</div>
-                  <div class="info-value">{{ property.info.billingStartDate }}</div>
-                </div>
-                <div class="info-row">
-                  <div class="info-label">Currency</div>
-                  <div class="info-value">{{ property.info.currency }}</div>
-                </div>
-                <div class="info-row">
-                  <div class="info-label">Timezone</div>
-                  <div class="info-value">{{ property.info.timezone }}</div>
-                </div>
-                <div class="info-row">
-                  <div class="info-label">Salesforce Id</div>
-                  <div class="info-value">{{ property.info.salesforceId }}</div>
-                </div>
+                <template v-if="!isEditingInfo">
+                  <div class="info-row">
+                    <div class="info-label">Name</div>
+                    <div class="info-value">{{ propertyData.name }}</div>
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Partner</div>
+                    <div class="info-value">{{ propertyData.info.partner }}</div>
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Enterprise</div>
+                    <div class="info-value">{{ propertyData.info.enterprise }}</div>
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Billing start date (UTC)</div>
+                    <div class="info-value">{{ propertyData.info.billingStartDate }}</div>
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Currency</div>
+                    <div class="info-value">{{ propertyData.info.currency }}</div>
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Timezone</div>
+                    <div class="info-value">{{ propertyData.info.timezone }}</div>
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Salesforce Id</div>
+                    <div class="info-value">{{ propertyData.info.salesforceId }}</div>
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="info-row">
+                    <div class="info-label">Name</div>
+                    <SmInput name="edit-name" v-model="editInfo.name" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Partner</div>
+                    <SmInput name="edit-partner" v-model="editInfo.partner" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Enterprise</div>
+                    <SmInput name="edit-enterprise" v-model="editInfo.enterprise" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Billing start date (UTC)</div>
+                    <SmInput name="edit-billing-start" v-model="editInfo.billingStartDate" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Currency</div>
+                    <SmInput name="edit-currency" v-model="editInfo.currency" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Timezone</div>
+                    <SmInput name="edit-timezone" v-model="editInfo.timezone" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Salesforce Id</div>
+                    <SmInput name="edit-salesforce" v-model="editInfo.salesforceId" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                </template>
+              </div>
+              <div v-if="isEditingInfo" class="card-actions">
+                <SmButton type="tertiary" @click="cancelEditInfo">Cancel</SmButton>
+                <SmButton type="primary" @click="saveInfo">Save</SmButton>
               </div>
             </SmCardContent>
           </SmCard>
@@ -134,47 +169,91 @@
             <SmCardContent>
               <div class="card-header">
                 <h2 class="card-title">Address</h2>
-                <button class="edit-btn" title="Edit">
+                <button v-if="!isEditingAddress" class="edit-btn" title="Edit" @click="startEditAddress">
                   <SmIcon name="action-edit" />
                 </button>
               </div>
               <div class="info-rows">
-                <div class="info-row">
-                  <div class="info-label">Street</div>
-                  <div class="info-value">{{ property.addressDetail.street }}</div>
-                </div>
-                <div class="info-row">
-                  <div class="info-label">Suburb</div>
-                  <div class="info-value">{{ property.addressDetail.suburb }}</div>
-                </div>
-                <div class="info-row address-row-split">
-                  <div class="split-left">
-                    <div class="info-label">State</div>
-                    <div class="info-value">{{ property.addressDetail.state }}</div>
+                <template v-if="!isEditingAddress">
+                  <div class="info-row">
+                    <div class="info-label">Street</div>
+                    <div class="info-value">{{ propertyData.addressDetail.street }}</div>
                   </div>
-                  <div class="split-right">
-                    <div class="info-label">Post Code</div>
-                    <div class="info-value">{{ property.addressDetail.postCode }}</div>
+                  <div class="info-row">
+                    <div class="info-label">Suburb</div>
+                    <div class="info-value">{{ propertyData.addressDetail.suburb }}</div>
                   </div>
-                </div>
-                <div class="info-row">
-                  <div class="info-label">Country</div>
-                  <div class="info-value">{{ property.addressDetail.country }}</div>
-                </div>
-                <div class="info-row address-row-split">
-                  <div class="split-left">
-                    <div class="info-label">Latitude</div>
-                    <div class="info-value">{{ property.addressDetail.latitude }}</div>
+                  <div class="info-row address-row-split">
+                    <div class="split-left">
+                      <div class="info-label">State</div>
+                      <div class="info-value">{{ propertyData.addressDetail.state }}</div>
+                    </div>
+                    <div class="split-right">
+                      <div class="info-label">Post Code</div>
+                      <div class="info-value">{{ propertyData.addressDetail.postCode }}</div>
+                    </div>
                   </div>
-                  <div class="split-right">
-                    <div class="info-label">Longitude</div>
-                    <div class="info-value">{{ property.addressDetail.longitude }}</div>
+                  <div class="info-row">
+                    <div class="info-label">Country</div>
+                    <div class="info-value">{{ propertyData.addressDetail.country }}</div>
                   </div>
-                </div>
-                <div class="info-row">
-                  <div class="info-label">Google Place ID</div>
-                  <div class="info-value">{{ property.addressDetail.googlePlaceId }}</div>
-                </div>
+                  <div class="info-row address-row-split">
+                    <div class="split-left">
+                      <div class="info-label">Latitude</div>
+                      <div class="info-value">{{ propertyData.addressDetail.latitude }}</div>
+                    </div>
+                    <div class="split-right">
+                      <div class="info-label">Longitude</div>
+                      <div class="info-value">{{ propertyData.addressDetail.longitude }}</div>
+                    </div>
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Google Place ID</div>
+                    <div class="info-value">{{ propertyData.addressDetail.googlePlaceId }}</div>
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="info-row">
+                    <div class="info-label">Street</div>
+                    <SmInput name="edit-street" v-model="editAddress.street" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Suburb</div>
+                    <SmInput name="edit-suburb" v-model="editAddress.suburb" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                  <div class="info-row address-row-split">
+                    <div class="split-left">
+                      <div class="info-label">State</div>
+                      <SmInput name="edit-state" v-model="editAddress.state" :error-disabled="true" :label-hidden="true" />
+                    </div>
+                    <div class="split-right">
+                      <div class="info-label">Post Code</div>
+                      <SmInput name="edit-postcode" v-model="editAddress.postCode" :error-disabled="true" :label-hidden="true" />
+                    </div>
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Country</div>
+                    <SmInput name="edit-country" v-model="editAddress.country" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                  <div class="info-row address-row-split">
+                    <div class="split-left">
+                      <div class="info-label">Latitude</div>
+                      <SmInput name="edit-latitude" v-model="editAddress.latitude" :error-disabled="true" :label-hidden="true" />
+                    </div>
+                    <div class="split-right">
+                      <div class="info-label">Longitude</div>
+                      <SmInput name="edit-longitude" v-model="editAddress.longitude" :error-disabled="true" :label-hidden="true" />
+                    </div>
+                  </div>
+                  <div class="info-row">
+                    <div class="info-label">Google Place ID</div>
+                    <SmInput name="edit-googleplaceid" v-model="editAddress.googlePlaceId" :error-disabled="true" :label-hidden="true" />
+                  </div>
+                </template>
+              </div>
+              <div v-if="isEditingAddress" class="card-actions">
+                <SmButton type="tertiary" @click="cancelEditAddress">Cancel</SmButton>
+                <SmButton type="primary" @click="saveAddress">Save</SmButton>
               </div>
             </SmCardContent>
           </SmCard>
@@ -186,31 +265,33 @@
           <SmCard class="info-card">
             <SmCardContent>
               <h2 class="card-title">Applications</h2>
-              <SmTable>
-                <SmTableThead>
-                  <SmTableTr>
-                    <SmTableTh>Name</SmTableTh>
-                    <SmTableTh>Status</SmTableTh>
-                    <SmTableTh>Region</SmTableTh>
-                  </SmTableTr>
-                </SmTableThead>
-                <SmTableTbody>
-                  <SmTableTr v-for="app in property.applications" :key="app.name">
-                    <SmTableTd>
-                      <a href="#" class="app-link" @click.prevent>
-                        {{ app.name }}
-                        <SmIcon name="action-external-link" style="margin-left: 2px; vertical-align: middle;" />
-                      </a>
-                    </SmTableTd>
-                    <SmTableTd>
-                      <span class="status-badge" :class="app.status === 'Active' ? 'status-badge--active' : 'status-badge--inactive'">
-                        {{ app.status }}
-                      </span>
-                    </SmTableTd>
-                    <SmTableTd>{{ app.region }}</SmTableTd>
-                  </SmTableTr>
-                </SmTableTbody>
-              </SmTable>
+              <div class="applications-table">
+                <SmTable>
+                  <SmTableThead>
+                    <SmTableTr>
+                      <SmTableTh>Name</SmTableTh>
+                      <SmTableTh>Status</SmTableTh>
+                      <SmTableTh>Region</SmTableTh>
+                    </SmTableTr>
+                  </SmTableThead>
+                  <SmTableTbody>
+                    <SmTableTr v-for="app in propertyData.applications" :key="app.name">
+                      <SmTableTd>
+                        <a href="#" class="app-link" @click.prevent>
+                          {{ app.name }}
+                          <SmIcon name="action-external-link" style="margin-left: 2px; vertical-align: middle;" />
+                        </a>
+                      </SmTableTd>
+                      <SmTableTd>
+                        <span class="status-badge" :class="app.status === 'Active' ? 'status-badge--active' : 'status-badge--inactive'">
+                          {{ app.status }}
+                        </span>
+                      </SmTableTd>
+                      <SmTableTd>{{ app.region }}</SmTableTd>
+                    </SmTableTr>
+                  </SmTableTbody>
+                </SmTable>
+              </div>
             </SmCardContent>
           </SmCard>
 
@@ -233,7 +314,7 @@
                 <p class="smart-guide-message">All available tasks have been completed.</p>
               </div>
               <div class="smart-guide-actions">
-                <SmButton variant="secondary">See all smart guide tasks</SmButton>
+                <SmButton type="secondary">See all smart guide tasks</SmButton>
               </div>
             </SmCardContent>
           </SmCard>
@@ -244,7 +325,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 const props = defineProps({
   property: {
@@ -256,7 +337,78 @@ const props = defineProps({
 const emit = defineEmits(['back'])
 
 const currentNav = ref('dashboard')
-const billingExpanded = ref(true)
+const billingExpanded = ref(false)
+
+function loadStored() {
+  try {
+    const raw = localStorage.getItem(`property-data-${props.property.id}`)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+function persistPropertyData() {
+  localStorage.setItem(`property-data-${props.property.id}`, JSON.stringify({
+    name: propertyData.name,
+    status: propertyData.status,
+    info: { ...propertyData.info },
+    addressDetail: { ...propertyData.addressDetail }
+  }))
+}
+
+const stored = loadStored()
+
+const propertyData = reactive({
+  name: stored?.name ?? props.property.name,
+  status: stored?.status ?? props.property.status,
+  info: stored?.info ?? { ...props.property.info },
+  addressDetail: stored?.addressDetail ?? { ...props.property.addressDetail },
+  applications: props.property.applications
+})
+
+const isEditingInfo = ref(false)
+const isEditingAddress = ref(false)
+const editInfo = ref({})
+const editAddress = ref({})
+
+function startEditInfo() {
+  editInfo.value = { name: propertyData.name, ...propertyData.info }
+  isEditingInfo.value = true
+}
+
+function saveInfo() {
+  propertyData.name = editInfo.value.name
+  Object.assign(propertyData.info, {
+    partner: editInfo.value.partner,
+    enterprise: editInfo.value.enterprise,
+    billingStartDate: editInfo.value.billingStartDate,
+    currency: editInfo.value.currency,
+    timezone: editInfo.value.timezone,
+    salesforceId: editInfo.value.salesforceId
+  })
+  isEditingInfo.value = false
+  persistPropertyData()
+}
+
+function cancelEditInfo() {
+  isEditingInfo.value = false
+}
+
+function startEditAddress() {
+  editAddress.value = { ...propertyData.addressDetail }
+  isEditingAddress.value = true
+}
+
+function saveAddress() {
+  Object.assign(propertyData.addressDetail, editAddress.value)
+  isEditingAddress.value = false
+  persistPropertyData()
+}
+
+function cancelEditAddress() {
+  isEditingAddress.value = false
+}
 </script>
 
 <style scoped>
@@ -425,11 +577,6 @@ const billingExpanded = ref(true)
   display: flex;
   flex-direction: column;
   padding: 8px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.info-row:last-child {
-  border-bottom: none;
 }
 
 .address-row-split {
@@ -456,6 +603,15 @@ const billingExpanded = ref(true)
   color: #333;
 }
 
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+
 .app-link {
   color: #006add;
   text-decoration: none;
@@ -464,6 +620,28 @@ const billingExpanded = ref(true)
 
 .app-link:hover {
   text-decoration: underline;
+}
+
+.applications-table :deep(table) {
+  border: none;
+  border-collapse: collapse;
+}
+
+.applications-table :deep(thead),
+.applications-table :deep(thead tr),
+.applications-table :deep(tbody tr) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.applications-table :deep(th),
+.applications-table :deep(td),
+.applications-table :deep([class*="sm-table"]) {
+  border: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
 
 .smart-guide-empty {

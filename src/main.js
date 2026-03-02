@@ -12,16 +12,23 @@ import 'sui-vue3/libs/sui-core/src/app/common/typography/index.scss'
 
 import { setup as setupSuiI18n } from '../node_modules/sui-vue3/libs/sui-core/src/app/libs/vue-i18n'
 
-const i18n = createI18n({
-  legacy: false,
-  locale: 'en',
-  fallbackLocale: 'en',
-  messages: { en: {} }
-})
+try {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    fallbackLocale: 'en',
+    messages: { en: {} }
+  })
 
-setupSuiI18n(i18n)
+  setupSuiI18n(i18n)
 
-const app = createApp(App)
-app.use(i18n)
-app.use(globalComponents)
-app.mount('#app')
+  const app = createApp(App)
+  app.use(i18n)
+  app.use(globalComponents)
+  app.config.errorHandler = (err) => {
+    document.body.innerHTML = `<pre style="color:red;padding:20px">Vue error: ${err.message}\n${err.stack}</pre>`
+  }
+  app.mount('#app')
+} catch (e) {
+  document.body.innerHTML = `<pre style="color:red;padding:20px">Startup error: ${e.message}\n${e.stack}</pre>`
+}

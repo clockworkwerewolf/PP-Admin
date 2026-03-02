@@ -327,6 +327,338 @@ export const PROPERTIES = [
       { name: 'Little Hotelier', status: 'Active', region: 'emea' },
       { name: 'Insights', status: 'Inactive', region: 'emea' }
     ]
+  },
+  {
+    id: '11',
+    name: 'Cafe Royal Hotel London',
+    spid: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    address: '68 Regent Street, London, ., W1B 4DY, gb',
+    partner: 'siteminder',
+    enterprise: 'siteminder_independents',
+    apps: ['BookingButton', 'ChannelManager', 'Canvas', 'Insights'],
+    status: 'Active',
+    info: {
+      partner: 'SiteMinder',
+      enterprise: 'SiteMinder Independents',
+      billingStartDate: '2018-03-01',
+      currency: 'GBP',
+      timezone: 'Europe/London',
+      salesforceId: '0014G00001CRL1001'
+    },
+    addressDetail: {
+      street: '68 Regent Street',
+      suburb: '.',
+      state: 'London',
+      postCode: 'W1B 4DY',
+      country: 'GB',
+      latitude: 51.5103,
+      longitude: -0.1390,
+      googlePlaceId: 'ChIJcaferoyallondon'
+    },
+    applications: [
+      { name: 'Booking Button', status: 'Active', region: 'emea' },
+      { name: 'Channel Manager', status: 'Active', region: 'emea' },
+      { name: 'Canvas', status: 'Active', region: 'emea' },
+      { name: 'Insights', status: 'Active', region: 'emea' }
+    ]
+  },
+  {
+    id: '12',
+    name: 'Casa Camper Barcelona',
+    spid: 'b2c3d4e5-f6a7-8901-bcde-f12345678901',
+    address: 'Carrer d\'Elisabets, 11, Barcelona, Catalonia, 08001, es',
+    partner: 'siteminder',
+    enterprise: 'siteminder_independents',
+    apps: ['BookingButton', 'ChannelManager'],
+    status: 'Active',
+    info: {
+      partner: 'SiteMinder',
+      enterprise: 'SiteMinder Independents',
+      billingStartDate: '2019-06-15',
+      currency: 'EUR',
+      timezone: 'Europe/Madrid',
+      salesforceId: '0014G00001CCB1002'
+    },
+    addressDetail: {
+      street: 'Carrer d\'Elisabets, 11',
+      suburb: 'El Raval',
+      state: 'Catalonia',
+      postCode: '08001',
+      country: 'ES',
+      latitude: 41.3830,
+      longitude: 2.1695,
+      googlePlaceId: 'ChIJcasacamperbarcelona'
+    },
+    applications: [
+      { name: 'Booking Button', status: 'Active', region: 'emea' },
+      { name: 'Channel Manager', status: 'Active', region: 'emea' }
+    ]
+  },
+  {
+    id: '13',
+    name: 'Château Frontenac Quebec',
+    spid: 'c3d4e5f6-a7b8-9012-cdef-123456789012',
+    address: '1 Rue des Carrières, Quebec City, QC, G1R 4P5, ca',
+    partner: 'siteminder',
+    enterprise: 'siteminder_independents',
+    apps: ['BookingButton', 'ChannelManager', 'Insights', 'FrontDesk'],
+    status: 'Active',
+    info: {
+      partner: 'SiteMinder',
+      enterprise: 'SiteMinder Independents',
+      billingStartDate: '2017-09-01',
+      currency: 'CAD',
+      timezone: 'America/Toronto',
+      salesforceId: '0014G00001CFQ1003'
+    },
+    addressDetail: {
+      street: '1 Rue des Carrières',
+      suburb: 'Old Quebec',
+      state: 'QC',
+      postCode: 'G1R 4P5',
+      country: 'CA',
+      latitude: 46.8197,
+      longitude: -71.2047,
+      googlePlaceId: 'ChIJchateaufrontenac'
+    },
+    applications: [
+      { name: 'Booking Button', status: 'Active', region: 'amer' },
+      { name: 'Channel Manager', status: 'Active', region: 'amer' },
+      { name: 'Insights', status: 'Active', region: 'amer' },
+      { name: 'Front Desk', status: 'Active', region: 'amer' }
+    ]
+  },
+  {
+    id: '14',
+    name: 'Delphi Beach Resort',
+    spid: 'd4e5f6a7-b8c9-0123-defa-234567890123',
+    address: '14 Poseidonos Avenue, Glyfada, Attica, 16675, gr',
+    partner: 'littlehotelier',
+    enterprise: 'lhi',
+    apps: ['BookingButton', 'LittleHotelier'],
+    status: 'Inactive',
+    info: {
+      partner: 'Little Hotelier',
+      enterprise: 'Little Hotelier Independents',
+      billingStartDate: 'Check Zuora',
+      currency: 'EUR',
+      timezone: 'Europe/Athens',
+      salesforceId: '0014G00001DBR1004'
+    },
+    addressDetail: {
+      street: '14 Poseidonos Avenue',
+      suburb: 'Glyfada',
+      state: 'Attica',
+      postCode: '16675',
+      country: 'GR',
+      latitude: 37.8654,
+      longitude: 23.7413,
+      googlePlaceId: 'ChIJdelphibeachresort'
+    },
+    applications: [
+      { name: 'Booking Button', status: 'Inactive', region: 'emea' },
+      { name: 'Little Hotelier', status: 'Inactive', region: 'emea' }
+    ]
+  },
+  {
+    id: '15',
+    name: 'Epoch Hotel Edinburgh',
+    spid: 'e5f6a7b8-c9d0-1234-efab-345678901234',
+    address: '50 George Street, Edinburgh, ., EH2 2LR, gb',
+    partner: 'siteminder',
+    enterprise: 'siteminder_independents',
+    apps: ['BookingButton', 'ChannelManager', 'Canvas'],
+    status: 'Active',
+    info: {
+      partner: 'SiteMinder',
+      enterprise: 'SiteMinder Independents',
+      billingStartDate: '2020-02-14',
+      currency: 'GBP',
+      timezone: 'Europe/London',
+      salesforceId: '0014G00001EHE1005'
+    },
+    addressDetail: {
+      street: '50 George Street',
+      suburb: 'New Town',
+      state: 'Edinburgh',
+      postCode: 'EH2 2LR',
+      country: 'GB',
+      latitude: 55.9520,
+      longitude: -3.1960,
+      googlePlaceId: 'ChIJepochhoteledinburgh'
+    },
+    applications: [
+      { name: 'Booking Button', status: 'Active', region: 'emea' },
+      { name: 'Channel Manager', status: 'Active', region: 'emea' },
+      { name: 'Canvas', status: 'Active', region: 'emea' }
+    ]
+  },
+  {
+    id: '16',
+    name: 'Fontainebleau Miami Beach',
+    spid: 'f6a7b8c9-d0e1-2345-fabc-456789012345',
+    address: '4441 Collins Avenue, Miami Beach, FL, 33140, us',
+    partner: 'skytouch',
+    enterprise: 'skytouchindependents',
+    apps: ['BookingButton', 'ChannelManager', 'Insights'],
+    status: 'Active',
+    info: {
+      partner: 'SkyTouch',
+      enterprise: 'SkyTouch Independents',
+      billingStartDate: '2016-07-04',
+      currency: 'USD',
+      timezone: 'America/New_York',
+      salesforceId: '0014G00001FMB1006'
+    },
+    addressDetail: {
+      street: '4441 Collins Avenue',
+      suburb: 'Miami Beach',
+      state: 'FL',
+      postCode: '33140',
+      country: 'US',
+      latitude: 25.8103,
+      longitude: -80.1209,
+      googlePlaceId: 'ChIJfontainebleaumiamibeach'
+    },
+    applications: [
+      { name: 'Booking Button', status: 'Active', region: 'amer' },
+      { name: 'Channel Manager', status: 'Active', region: 'amer' },
+      { name: 'Insights', status: 'Active', region: 'amer' }
+    ]
+  },
+  {
+    id: '17',
+    name: 'Grand Hyatt Melbourne',
+    spid: 'a7b8c9d0-e1f2-3456-abcd-567890123456',
+    address: '123 Collins Street, Melbourne, VIC, 3000, au',
+    partner: 'siteminder',
+    enterprise: 'siteminder_independents',
+    apps: ['BookingButton', 'ChannelManager', 'Canvas', 'Insights'],
+    status: 'Active',
+    info: {
+      partner: 'SiteMinder',
+      enterprise: 'SiteMinder Independents',
+      billingStartDate: '2014-05-20',
+      currency: 'AUD',
+      timezone: 'Australia/Melbourne',
+      salesforceId: '0014G00001GHM1007'
+    },
+    addressDetail: {
+      street: '123 Collins Street',
+      suburb: 'Melbourne CBD',
+      state: 'VIC',
+      postCode: '3000',
+      country: 'AU',
+      latitude: -37.8136,
+      longitude: 144.9631,
+      googlePlaceId: 'ChIJgrandhyattmelbourne'
+    },
+    applications: [
+      { name: 'Booking Button', status: 'Active', region: 'apac' },
+      { name: 'Channel Manager', status: 'Active', region: 'apac' },
+      { name: 'Canvas', status: 'Active', region: 'apac' },
+      { name: 'Insights', status: 'Active', region: 'apac' }
+    ]
+  },
+  {
+    id: '18',
+    name: 'Hotel Schweizerhof Bern',
+    spid: 'b8c9d0e1-f2a3-4567-bcde-678901234567',
+    address: 'Bahnhofplatz 11, Bern, ., 3001, ch',
+    partner: 'littlehotelier',
+    enterprise: 'lhi',
+    apps: ['BookingButton', 'ChannelManager', 'LittleHotelier'],
+    status: 'Active',
+    info: {
+      partner: 'Little Hotelier',
+      enterprise: 'Little Hotelier Independents',
+      billingStartDate: '2021-01-10',
+      currency: 'CHF',
+      timezone: 'Europe/Zurich',
+      salesforceId: '0014G00001HSB1008'
+    },
+    addressDetail: {
+      street: 'Bahnhofplatz 11',
+      suburb: '.',
+      state: 'Bern',
+      postCode: '3001',
+      country: 'CH',
+      latitude: 46.9490,
+      longitude: 7.4421,
+      googlePlaceId: 'ChIJhotelschweizerhodbern'
+    },
+    applications: [
+      { name: 'Booking Button', status: 'Active', region: 'emea' },
+      { name: 'Channel Manager', status: 'Active', region: 'emea' },
+      { name: 'Little Hotelier', status: 'Active', region: 'emea' }
+    ]
+  },
+  {
+    id: '19',
+    name: 'Icehotel Jukkasjärvi',
+    spid: 'c9d0e1f2-a3b4-5678-cdef-789012345678',
+    address: 'Marknadsvägen 63, Jukkasjärvi, Norrbotten, 981 91, se',
+    partner: 'siteminder',
+    enterprise: 'siteminder_independents',
+    apps: ['BookingButton', 'Canvas'],
+    status: 'Active',
+    info: {
+      partner: 'SiteMinder',
+      enterprise: 'SiteMinder Independents',
+      billingStartDate: '2022-11-01',
+      currency: 'SEK',
+      timezone: 'Europe/Stockholm',
+      salesforceId: '0014G00001ICJ1009'
+    },
+    addressDetail: {
+      street: 'Marknadsvägen 63',
+      suburb: 'Jukkasjärvi',
+      state: 'Norrbotten',
+      postCode: '981 91',
+      country: 'SE',
+      latitude: 67.8558,
+      longitude: 20.6029,
+      googlePlaceId: 'ChIJicehoteljukkasjärvi'
+    },
+    applications: [
+      { name: 'Booking Button', status: 'Active', region: 'emea' },
+      { name: 'Canvas', status: 'Active', region: 'emea' }
+    ]
+  },
+  {
+    id: '20',
+    name: 'Jumeirah Beach Hotel Dubai',
+    spid: 'd0e1f2a3-b4c5-6789-defa-890123456789',
+    address: 'Jumeirah Beach Road, Dubai, ., 00000, ae',
+    partner: 'siteminder',
+    enterprise: 'siteminder_independents',
+    apps: ['BookingButton', 'ChannelManager', 'Canvas', 'Insights', 'FrontDesk'],
+    status: 'Active',
+    info: {
+      partner: 'SiteMinder',
+      enterprise: 'SiteMinder Independents',
+      billingStartDate: '2015-01-01',
+      currency: 'AED',
+      timezone: 'Asia/Dubai',
+      salesforceId: '0014G00001JBH1010'
+    },
+    addressDetail: {
+      street: 'Jumeirah Beach Road',
+      suburb: 'Jumeirah',
+      state: 'Dubai',
+      postCode: '00000',
+      country: 'AE',
+      latitude: 25.1317,
+      longitude: 55.1853,
+      googlePlaceId: 'ChIJjumeirahbeachhoteledubai'
+    },
+    applications: [
+      { name: 'Booking Button', status: 'Active', region: 'apac' },
+      { name: 'Channel Manager', status: 'Active', region: 'apac' },
+      { name: 'Canvas', status: 'Active', region: 'apac' },
+      { name: 'Insights', status: 'Active', region: 'apac' },
+      { name: 'Front Desk', status: 'Active', region: 'apac' }
+    ]
   }
 ]
 

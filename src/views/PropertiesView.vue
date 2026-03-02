@@ -2,7 +2,7 @@
   <div class="properties-view">
     <div class="properties-header">
       <h1 class="properties-title">Properties</h1>
-      <SmButton variant="primary">Add property</SmButton>
+      <SmButton type="primary">Add property</SmButton>
     </div>
 
     <SmCard class="search-card">
@@ -10,13 +10,16 @@
         <div class="search-form">
           <div class="search-field">
             <label class="search-label">Name</label>
-            <SmInput v-model="searchName" placeholder="" />
+            <SmInput name="search-name" v-model="searchName" placeholder="" :error-disabled="true" :label-hidden="true" />
           </div>
           <div class="search-field">
             <label class="search-label">SPID</label>
-            <SmInput v-model="searchSpid" placeholder="" />
+            <SmInput name="search-spid" v-model="searchSpid" placeholder="" :error-disabled="true" :label-hidden="true" />
           </div>
-          <SmButton variant="primary" @click="handleSearch">Search</SmButton>
+          <div class="search-field search-field--action">
+            <span class="search-label" aria-hidden="true">&nbsp;</span>
+            <SmButton type="primary" @click="handleSearch">Search</SmButton>
+          </div>
         </div>
       </SmCardContent>
     </SmCard>
@@ -52,57 +55,59 @@
             </SmTableTd>
             <SmTableTd>
               <div class="apps-cell">
-                <span
+                <SmTag
                   v-for="app in property.apps"
                   :key="app"
-                  class="app-tag"
-                  :class="getAppTagClass(app, property)"
-                >{{ formatAppName(app) }}</span>
+                  :type="getAppTagType(app, property)"
+                  size="small"
+                >{{ formatAppName(app) }}</SmTag>
               </div>
             </SmTableTd>
           </SmTableTr>
         </SmTableTbody>
       </SmTable>
+    </div>
 
-      <div class="table-footer">
-        <div class="pagination-wrapper">
-          <SmPagination
-            :total="filteredProperties.length"
-            :page-size="pageSize"
-            v-model:current-page="currentPage"
-          />
-        </div>
-        <div class="results-info pp-text-sm pp-text-grey">
-          {{ resultsInfo }}
-        </div>
+    <div class="table-footer">
+      <div class="pagination-wrapper">
+        <SmPagination
+          :total-items="filteredProperties.length"
+          :items-per-page="pageSize"
+          v-model:currentPage="currentPage"
+        />
+      </div>
+      <div class="results-info pp-text-sm pp-text-grey">
+        {{ resultsInfo }}
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { PROPERTIES, TOTAL_PROPERTIES } from '../data/mock-data.js'
+import { ref, computed, watch } from 'vue'
+import { PROPERTIES } from '../data/mock-data.js'
 
 const emit = defineEmits(['select-property'])
 
 const searchName = ref('')
 const searchSpid = ref('')
-const activeSearch = ref({ name: '', spid: '' })
 const currentPage = ref(1)
 const pageSize = ref(10)
 
+watch([searchName, searchSpid], () => {
+  currentPage.value = 1
+})
+
 function handleSearch() {
-  activeSearch.value = { name: searchName.value, spid: searchSpid.value }
   currentPage.value = 1
 }
 
 const filteredProperties = computed(() => {
   return PROPERTIES.filter(p => {
-    const nameMatch = !activeSearch.value.name ||
-      p.name.toLowerCase().includes(activeSearch.value.name.toLowerCase())
-    const spidMatch = !activeSearch.value.spid ||
-      p.spid.toLowerCase().includes(activeSearch.value.spid.toLowerCase())
+    const nameMatch = !searchName.value ||
+      p.name.toLowerCase().includes(searchName.value.toLowerCase())
+    const spidMatch = !searchSpid.value ||
+      p.spid.toLowerCase() === searchSpid.value.trim().toLowerCase()
     return nameMatch && spidMatch
   })
 })
@@ -113,11 +118,9 @@ const paginatedProperties = computed(() => {
 })
 
 const resultsInfo = computed(() => {
-  const total = activeSearch.value.name || activeSearch.value.spid
-    ? filteredProperties.value.length
-    : TOTAL_PROPERTIES
+  const total = filteredProperties.value.length
   const start = (currentPage.value - 1) * pageSize.value + 1
-  const end = Math.min(currentPage.value * pageSize.value, filteredProperties.value.length)
+  const end = Math.min(currentPage.value * pageSize.value, total)
   return `${start} - ${end} of ${total.toLocaleString()} results`
 })
 
@@ -133,19 +136,21 @@ function formatAppName(app) {
   return names[app] || app
 }
 
-function getAppTagClass(app, property) {
+function getAppTagType(app, property) {
   const appObj = property.applications?.find(a =>
     a.name.replace(/\s/g, '') === app || a.name === app
   )
-  const isInactive = appObj?.status === 'Inactive'
-  return isInactive ? 'app-tag--inactive' : 'app-tag--active'
+  return appObj?.status === 'Inactive' ? 'alert' : 'success'
 }
 </script>
 
 <style scoped>
 .properties-view {
   padding: 32px;
-  max-width: 1200px;
+  width: 100%;
+  overflow-y: auto;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .properties-header {
@@ -163,6 +168,7 @@ function getAppTagClass(app, property) {
 
 .search-card {
   margin-bottom: 24px;
+  background-color: #EBF4FF !important;
 }
 
 .search-form {
@@ -178,6 +184,11 @@ function getAppTagClass(app, property) {
   min-width: 200px;
 }
 
+.search-field--action {
+  min-width: auto;
+  flex-shrink: 0;
+}
+
 .search-label {
   font-size: 13px;
   font-weight: 500;
@@ -189,6 +200,10 @@ function getAppTagClass(app, property) {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
+}
+
+:deep(td) {
+  vertical-align: top;
 }
 
 .property-row:hover {
@@ -224,34 +239,11 @@ function getAppTagClass(app, property) {
   gap: 4px;
 }
 
-.app-tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 500;
-  border: 1px solid;
-}
-
-.app-tag--active {
-  background-color: #e8f5e9;
-  color: #2e7d32;
-  border-color: #a5d6a7;
-}
-
-.app-tag--inactive {
-  background-color: #ffebee;
-  color: #c62828;
-  border-color: #ef9a9a;
-}
-
 .table-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  border-top: 1px solid #e0e0e0;
-  background: white;
+  padding: 12px 0;
 }
 
 .results-info {

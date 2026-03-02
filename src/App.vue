@@ -4,18 +4,6 @@
       logo="/sm-logo-app-colour.svg"
       page-title="Platform Admin"
     >
-      <template #user-menu>
-        <SmUserMenu display-name="Admin User">
-          <template #icon>
-            <SmIcon name="action-user" />
-          </template>
-          <SmVerticalNav>
-            <SmVerticalNavItem label="My account" />
-            <SmVerticalNavItem label="Logout" />
-          </SmVerticalNav>
-        </SmUserMenu>
-      </template>
-
       <template #nav>
         <SmHorizontalNav>
           <SmHorizontalNavItem
@@ -32,6 +20,17 @@
             :force-active-state="view === 'settings' ? 'exact-active' : 'in-active'"
           />
         </SmHorizontalNav>
+      </template>
+      <template #user-menu>
+        <SmUserMenu display-name="Admin User">
+          <template #icon>
+            <SmIcon name="action-user" />
+          </template>
+          <SmVerticalNav>
+            <SmVerticalNavItem label="My account" />
+            <SmVerticalNavItem label="Logout" />
+          </SmVerticalNav>
+        </SmUserMenu>
       </template>
     </SmAppHeader>
 

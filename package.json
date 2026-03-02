@@ -8,18 +8,20 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@vueuse/core": "^14.2.1"
+  },
   "devDependencies": {
+    "@vee-validate/rules": "^4.15.1",
     "@vitejs/plugin-vue": "^5.0.3",
+    "floating-vue": "^5.2.2",
+    "lodash-es": "^4.17.21",
+    "sass": "^1.69.5",
+    "sui-vue3": "github:siteminder-au/sui#vue3",
+    "v-calendar": "^3.1.2",
+    "vee-validate": "^4.15.1",
     "vue": "^3.4.38",
     "vue-i18n": "^9.14.1",
-    "vee-validate": "^4.15.1",
-    "@vee-validate/rules": "^4.15.1",
-    "vue-multiselect": "^3.4.0",
-    "floating-vue": "^5.2.2",
-    "sass": "^1.69.5",
-    "lodash-es": "^4.17.21",
-    "v-calendar": "^3.1.2",
-    "sui-vue3": "github:siteminder-au/sui#vue3"
+    "vue-multiselect": "^3.4.0"
   }
 }
